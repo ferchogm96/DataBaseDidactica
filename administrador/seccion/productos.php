@@ -8,6 +8,7 @@ $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
 include ("../config/bd.php");
 
+
 switch($accion){
     case "Agregar":
         
@@ -25,7 +26,7 @@ switch($accion){
         }
         $sentenciaSQL->bindParam(':imagen',$nombreArchivo);
         $sentenciaSQL->execute();
-        break;
+    break;
 
     case "Modificar":
 
@@ -42,14 +43,16 @@ switch($accion){
 
             move_uploaded_file($tmpImagen,"../../pdfs/".$nombreArchivo);
 
-            $sentenciaSQL = $conexion->prepare("SELECT imagen FROM libros WHERE id=:id");
+            $sentenciaSQL = $conexion->prepare("SELECT imagenes FROM libros WHERE id=:id");
             $sentenciaSQL->bindParam(':id',$txtID);
             $sentenciaSQL->execute();
             $libro=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
-            if(isset($libro["imagen"])&& ($libro["imagen"]!="archivo.pdf")){
-                if(file_exists("../../pdfs/".$libro["imagen"])){
-                    unlink("../../pdfs/".$libro["imagen"]);
+            if( isset($libro["imagenes"]) &&($libro["imagenes"]!="archivo.pdf") ){
+                
+                if(file_exists("../../pdfs/".$libro["imagenes"])){
+                    
+                    unlink("../../pdfs/".$libro["imagenes"]);
                 }
             }
             $sentenciaSQL = $conexion->prepare("UPDATE libros SET imagenes=:imagen WHERE id=:id");
@@ -57,11 +60,11 @@ switch($accion){
             $sentenciaSQL->bindParam(':id',$txtID);
             $sentenciaSQL->execute();
         }
-        break;
+    break;
 
     case "Cancelar":
         echo "Presionado boton Cancelar";
-        break;
+    break;
     case "Selecionar":
 
         $sentenciaSQL = $conexion->prepare("SELECT * FROM libros WHERE id=:id");
@@ -72,25 +75,26 @@ switch($accion){
         $txtNombre=$libro['nombre'];
         $txtImagen=$libro['imagen'];
         //echo "Presionado boton Seleccionar";
-        break;
+    break;
 
     case "Borrar":
-        $sentenciaSQL = $conexion->prepare("SELECT imagen FROM libros WHERE id=:id");
+        $sentenciaSQL = $conexion->prepare("SELECT imagenes FROM libros WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
         $libro=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
-
-        if( isset($libro["imagen"]) &&($libro["imagen"]!="archivo.pdf") ){
-
-            if(file_exists("../../pdfs/".$libro["imagen"])){
-
-                unlink("../../pdfs/".$libro["imagen"]);
+        
+        if( isset($libro["imagenes"]) &&($libro["imagenes"]!="archivo.pdf") ){
+                
+            if(file_exists("../../pdfs/".$libro["imagenes"])){
+                
+                unlink("../../pdfs/".$libro["imagenes"]);
             }
         }
+
         $sentenciaSQL = $conexion->prepare("DELETE FROM libros WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
-        break;
+    break;
 }
 
 $sentenciaSQL = $conexion->prepare("SELECT * FROM libros");
