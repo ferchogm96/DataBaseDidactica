@@ -1,0 +1,51 @@
+.jumbotron{
+	background-color: primary;
+	color: black;
+	margin-top: 50px;
+}
+
+.navbar{
+	background-color: blue;
+}
+
+footer{
+	padding: 10px 10px 0 10px;
+	background-color: blue;
+	margin-bottom: 0px;
+	margin-top: 20px;
+}
+
+.img-fluid{
+	width: 100%;
+	height: 100%;
+	margin-top: 55px;
+}
+
+.card-libros{
+	flex: 1 200px;
+	padding: 2px 5px 2px 5px;
+	margin-top: 10px;
+}
+
+.card-body img{
+	border-radius: 50%;
+	max-width: 10rem;
+	width: 100%;
+}
+
+.btn-descarga{
+	width: 100%;
+	border-radius: 0px;
+}
+
+.footer-address-icon{
+	padding-right: 10px;
+}
+
+.download-icon{
+	padding-left: 5px;
+}
+
+.tab-content{
+	margin-top: 10px;
+}
