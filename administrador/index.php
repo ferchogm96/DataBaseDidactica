@@ -1,8 +1,33 @@
-<?php
+<?php 
+include ("config/bd.php");
+$txtCorreo=(isset($_POST['txtCorreo']))?$_POST['txtCorreo']:"";
+$txtUsuario=(isset($_POST['txtUsuario']))?$_POST['txtUsuario']:"";
+$txtContrasenia=(isset($_POST['txtContrasenia']))?$_POST['txtContrasenia']:"";
+
+session_start();
 if($_POST){
-    header('Location:inicio.php');
+        $sentenciaSQL = $conexion->prepare("SELECT * FROM logins WHERE correo=:correo && contrasenia=:contrasenia");
+        $sentenciaSQL->bindParam(':correo',$txtCorreo);
+        $sentenciaSQL->bindParam(':contrasenia',$txtContrasenia);
+        $sentenciaSQL->execute();
+        $usuario=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+        $txtCorreo=$usuario['correo'];
+        $txtContrasenia=$usuario['contrasenia'];
+        if($txtCorreo!=="" && $txtContrasenia!==""){
+            header("Location:inicio.php");
+        }else{
+            $mensaje = "Error: El usuario o contraseña son incorrectos";
+        }
+
+
+   // $_SESSION['usuario']="ok";
+    //$_SESSION['nombreUsuario']="Develoteca";
+
+    
 }
 ?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -26,7 +51,12 @@ if($_POST){
                           Login
                       </div>
                       <div class="card-body">
-                          
+
+                        <?php if(isset($mensaje)){?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $mensaje;?>
+                        </div>
+                        <?php }?>
                       <form method="POST">
 
                           <div class = "form-group">

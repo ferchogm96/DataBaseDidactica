@@ -26,7 +26,7 @@ switch($accion){
         }
         $sentenciaSQL->bindParam(':imagen',$nombreArchivo);
         $sentenciaSQL->execute();
-        
+        header("Location:productos.php");
     break;
 
     case "Modificar":
@@ -62,11 +62,11 @@ switch($accion){
             $sentenciaSQL->execute();
             
         }
-        
+        header("Location:productos.php");
     break;
 
     case "Cancelar":
-        //echo "Presionado boton Cancelar";
+        header("Location:productos.php");
     break;
 
     case "Seleccionar":
@@ -97,7 +97,7 @@ switch($accion){
         $sentenciaSQL = $conexion->prepare("DELETE FROM libros WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
-        
+        header("Location:productos.php");
     break;
 }
 
