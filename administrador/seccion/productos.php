@@ -6,8 +6,8 @@ $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
 $txtImagen=(isset($_FILES['txtImagen']['name']))?$_FILES['txtImagen']['name']:"";
 $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
-include ("../config/bd.php");
 
+include ("../config/bd.php");
 
 switch($accion){
     case "Agregar":
@@ -26,6 +26,7 @@ switch($accion){
         }
         $sentenciaSQL->bindParam(':imagen',$nombreArchivo);
         $sentenciaSQL->execute();
+        
     break;
 
     case "Modificar":
@@ -59,22 +60,24 @@ switch($accion){
             $sentenciaSQL->bindParam(':imagen',$nombreArchivo);
             $sentenciaSQL->bindParam(':id',$txtID);
             $sentenciaSQL->execute();
+            
         }
+        
     break;
 
     case "Cancelar":
-        echo "Presionado boton Cancelar";
+        //echo "Presionado boton Cancelar";
     break;
-    case "Selecionar":
 
+    case "Seleccionar":
         $sentenciaSQL = $conexion->prepare("SELECT * FROM libros WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
         $libro=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
-        $txtNombre=$libro['nombre'];
-        $txtImagen=$libro['imagen'];
-        //echo "Presionado boton Seleccionar";
+        $txtNombre=$libro['nombres'];
+        $txtImagen=$libro['imagenes'];
+
     break;
 
     case "Borrar":
@@ -94,6 +97,7 @@ switch($accion){
         $sentenciaSQL = $conexion->prepare("DELETE FROM libros WHERE id=:id");
         $sentenciaSQL->bindParam(':id',$txtID);
         $sentenciaSQL->execute();
+        
     break;
 }
 
@@ -114,23 +118,26 @@ $listaLibros=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
                     <div class = "form-group">
                     <label for="txtID">ID:</label>
-                    <input type="text" class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
+                    <input type="text" required readonly class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
                     </div>
 
                     <div class = "form-group">
                     <label for="txtNombre">Nombre:</label>
-                    <input type="text" class="form-control" value="<?php echo $txtImagen; ?>" name="txtNombre" id="txtNombre" placeholder="Nombre del Libro">
+                    <input type="text" required class="form-control" value="<?php echo $txtNombre; ?>" name="txtNombre" id="txtNombre" placeholder="Nombre del Libro">
                     </div>
 
                     <div class = "form-group">
-                    <label for="txtImagen">Imagen:</label>
+                    <label for="txtNombre">Archivo:</label>
+
+                    <?php echo $txtImagen; ?>
+
                     <input type="file" class="form-control" name="txtImagen" id="txtImagen" placeholder="Nombre del Libro">
                     </div>
 
                     <div class="btn-group" role="group" aria-label="">
-                        <button type="submit" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
-                        <button type="submit" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
-                        <button type="submit" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
+                        <button type="submit" name="accion" <?php echo ($accion=="Seleccionar")?"disabled":"";?> value="Agregar" class="btn btn-success">Agregar</button>
+                        <button type="submit" name="accion" <?php echo ($accion!="Seleccionar")?"disabled":"";?> value="Modificar" class="btn btn-warning">Modificar</button>
+                        <button type="submit" name="accion" <?php echo ($accion!="Seleccionar")?"disabled":"";?> value="Cancelar" class="btn btn-info">Cancelar</button>
                     </div>
 
                 </form>
@@ -145,7 +152,7 @@ $listaLibros=$sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Imagen</th>
+                    <th>Archivo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
