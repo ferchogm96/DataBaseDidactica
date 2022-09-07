@@ -1,7 +1,7 @@
 {
-  "name": "curso-boostrap4",
+  "name": "proyecto_didactica",
   "version": "1.0.0",
-  "description": "Mi primer proyecto nodejs",
+  "description": "proyecto para la pagina web de didactica del ICAT",
   "main": "index.js",
   "scripts": {
     "dev": "lite-server",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ferchogm96/Curso-Boostrap4.git"
+    "url": "git+https://github.com/ferchogm96/DataBaseDidactica.git"
   },
   "author": "Fernando Gonzalez",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ferchogm96/Curso-Boostrap4/issues"
+    "url": "https://github.com/ferchogm96/DataBaseDidactica/issues"
   },
-  "homepage": "https://github.com/ferchogm96/Curso-Boostrap4#readme",
+  "homepage": "https://github.com/ferchogm96/DataBaseDidactica#readme",
   "devDependencies": {
     "lite-server": "^2.6.1",
     "node-sass": "^7.0.1"
