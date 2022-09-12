@@ -19,7 +19,7 @@
 <div class="card card-libros d-flex flex-column justify-content-between ml-2">
     <div class="card-body">
         <img src="img/2.jpg" class="card-img-top">
-        <h5 class="card-title">Libro Enseñanza </h5> 
+        <h5 class="card-title">Libro Enseñanzas </h5> 
         <h6 class="card-subtitle text-muted">Lic.González</h6> 
         <p class="card-text">Ayuda para el proceso de enseñanza para alumnos a distancia. </p>
     </div>

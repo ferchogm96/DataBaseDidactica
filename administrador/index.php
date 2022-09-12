@@ -14,7 +14,7 @@ if($_POST){
 
         $txtCorreo=$usuario['correo'];
         $txtContrasenia=$usuario['contrasenia'];
-        if($txtCorreo!=="" && $txtContrasenia!==""){
+        if($txtCorreo!=='' && $txtContrasenia!==''){
             header("Location:inicio.php");
         }else{
             $mensaje = "Error: El usuario o contraseña son incorrectos";
@@ -69,7 +69,7 @@ if($_POST){
                           </div>
                     
                           
-                          <button type="submit" class="btn btn-primary">Entrar al administrador</button>
+                          <button type="submit" class="btn btn-primary">Entrar como administrador</button>
                           </form>
                           
                           
