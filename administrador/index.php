@@ -2,9 +2,9 @@
 require ("config/bd.php");
 session_start();
 
-$correo= $_POST['correo'];
-$contrasenia= $_POST['contrasenia'];
-
+//$correo= $_POST['correo'];
+//$contrasenia= $_POST['contrasenia'];
+/*
 $q = "SELECT COUNT(*) as contar FROM logins WHERE correo = '$correo' and contrasenia = '$contrasenia' ";
 $consulta = mysqli_query($conexion,$q);
 $array = mysqli_fetch_array($consulta);
@@ -14,23 +14,23 @@ if($array['contar']>0){
     header("location:inicio.php");
 }else{
     echo "Error: El usuario o contraseña son incorrectos";
+}*/
+if($_POST){
+        $sentenciaSQL = $conexion->prepare("SELECT COUNT(*) as contar FROM logins WHERE correo=:correo and contrasenia=:contrasenia");
+        $sentenciaSQL->bindParam(':correo',$correo);
+        $sentenciaSQL->bindParam(':contrasenia',$contrasenia);
+        $sentenciaSQL->execute();
+        $usuario=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+        $correo=$usuario['correo'];
+        $contrasenia=$usuario['contrasenia'];
+        if($correo!=='' and $contrasenia!==''){
+            header("Location:inicio.php");
+        }else{
+            echo "Error: El usuario o contraseña son incorrectos";
+        }
+
 }
-//if($_POST){
-  //      $sentenciaSQL = $conexion->prepare("SELECT * FROM logins WHERE correo=:correo && contrasenia=:contrasenia");
-    //    $sentenciaSQL->bindParam(':correo',$txtCorreo);
-      //  $sentenciaSQL->bindParam(':contrasenia',$txtContrasenia);
-        //$sentenciaSQL->execute();
-        //$usuario=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
-
-        //$txtCorreo=$usuario['correo'];
-        //$txtContrasenia=$usuario['contrasenia'];
-        //if($txtCorreo!=='' && $txtContrasenia!==''){
-            //header("Location:inicio.php");
-        //}else{
-          //  $mensaje = "Error: El usuario o contraseña son incorrectos";
-       // }
-
-
    // $_SESSION['usuario']="ok";
     //$_SESSION['nombreUsuario']="Develoteca";  
 //}
