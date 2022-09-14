@@ -2,7 +2,7 @@
 
     <div class="jumbotron">
         <h1 class="display-3">Nosotros</h1>
-        <p class="lead">Somos el equipo de sistemas de el ICAT trabajando para ti</p>
+        <p class="lead">Somos el equipo de sistemas de el ICAT trabajando para ti.</p>
         <hr class="my-2">
        
     </div>

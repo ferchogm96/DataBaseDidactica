@@ -1,31 +1,39 @@
 <?php 
-include ("config/bd.php");
-$txtCorreo=(isset($_POST['txtCorreo']))?$_POST['txtCorreo']:"";
-$txtUsuario=(isset($_POST['txtUsuario']))?$_POST['txtUsuario']:"";
-$txtContrasenia=(isset($_POST['txtContrasenia']))?$_POST['txtContrasenia']:"";
-
+require ("config/bd.php");
 session_start();
-if($_POST){
-        $sentenciaSQL = $conexion->prepare("SELECT * FROM logins WHERE correo=:correo && contrasenia=:contrasenia");
-        $sentenciaSQL->bindParam(':correo',$txtCorreo);
-        $sentenciaSQL->bindParam(':contrasenia',$txtContrasenia);
-        $sentenciaSQL->execute();
-        $usuario=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
-        $txtCorreo=$usuario['correo'];
-        $txtContrasenia=$usuario['contrasenia'];
-        if($txtCorreo!=='' && $txtContrasenia!==''){
-            header("Location:inicio.php");
-        }else{
-            $mensaje = "Error: El usuario o contraseña son incorrectos";
-        }
+$correo= $_POST['correo'];
+$contrasenia= $_POST['contrasenia'];
+
+$q = "SELECT COUNT(*) as contar FROM logins WHERE correo = '$correo' and contrasenia = '$contrasenia' ";
+$consulta = mysqli_query($conexion,$q);
+$array = mysqli_fetch_array($consulta);
+
+if($array['contar']>0){
+    $_SESSION['correo'] = $correo;
+    header("location:inicio.php");
+}else{
+    echo "Error: El usuario o contraseña son incorrectos";
+}
+//if($_POST){
+  //      $sentenciaSQL = $conexion->prepare("SELECT * FROM logins WHERE correo=:correo && contrasenia=:contrasenia");
+    //    $sentenciaSQL->bindParam(':correo',$txtCorreo);
+      //  $sentenciaSQL->bindParam(':contrasenia',$txtContrasenia);
+        //$sentenciaSQL->execute();
+        //$usuario=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+        //$txtCorreo=$usuario['correo'];
+        //$txtContrasenia=$usuario['contrasenia'];
+        //if($txtCorreo!=='' && $txtContrasenia!==''){
+            //header("Location:inicio.php");
+        //}else{
+          //  $mensaje = "Error: El usuario o contraseña son incorrectos";
+       // }
 
 
    // $_SESSION['usuario']="ok";
-    //$_SESSION['nombreUsuario']="Develoteca";
-
-    
-}
+    //$_SESSION['nombreUsuario']="Develoteca";  
+//}
 ?>
 
 <!doctype html>
@@ -48,7 +56,7 @@ if($_POST){
                 <br> <br>
                   <div class="card">
                       <div class="card-header">
-                          Login
+                          Iniciar Sesión
                       </div>
                       <div class="card-body">
 
@@ -60,7 +68,7 @@ if($_POST){
                       <form method="POST">
 
                           <div class = "form-group">
-                          <label for="exampleInputEmail1">Correo Electrónico Universitario</label>
+                          <label for="exampleInputEmail1">Correo Electrónico</label>
                           <input type="email" class="form-control" name="correo"id="exampleInputEmail1"  placeholder="Enter email">
                           </div>
                           <div class="form-group">
@@ -69,7 +77,7 @@ if($_POST){
                           </div>
                     
                           
-                          <button type="submit" class="btn btn-primary">Entrar como administrador</button>
+                          <button type="submit" class="btn btn-primary">Entrar</button>
                           </form>
                           
                           

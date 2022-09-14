@@ -1,14 +1,9 @@
 <?php
 session_start();
-if(!isset($_SESSION['usuario'])){
-  header("Location:../index.php");
-} else{
-  
-  if($_SESSION['usuario']=="ok"){
-    $nombreUsuario=$_SESSION["nombreUsuario"];
-  }
-}
+$correo = $_SESSION['correo'];
+
 ?>
+
 <!doctype html>
 <html lang="en">
   <head>
