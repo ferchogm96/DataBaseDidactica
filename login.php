@@ -1,25 +1,61 @@
-<?php 
-require ("config/bd.php");
+<?php include("template/cabecera.php"); ?>
+<?php
+include("administrador/config/bd.php");
 session_start();
 
-if($_POST){
-        $sentenciaSQL = $conexion->prepare("SELECT COUNT(*) as contar FROM logins WHERE correo=:correo and contrasenia=:contrasenia");
-        $sentenciaSQL->bindParam(':correo',$correo);
-        $sentenciaSQL->bindParam(':contrasenia',$contrasenia);
-        $sentenciaSQL->execute();
-        $usuario=$sentenciaSQL->fetch(PDO::FETCH_LAZY);
+//creamos una serie de roles para cada tipo de usuario que puede iniciar sesion, cambian sus privilegios.
+if(isset($_SESSION['rol'])){
+    switch($_SESSION['rol']){
+        case 1:
+            header('Location: roles/colaborador.php');
+        break;
+        case 2:
+            header('Location: roles/coordinador.php');
+        break;
+        case 3:
+            header('Location: roles/superAdministrador.php');
+        break;
 
-        $correo=$usuario['correo'];
-        $contrasenia=$usuario['contrasenia'];
-        if($correo!=='' and $contrasenia!==''){
-            header("Location:inicio.php");
-        }else{
-            echo "Error: El usuario o contraseña son incorrectos";
-        }
-
+        default;
+    }
 }
-   
+
+//validamos si existe un correo y un password
+if(isset($_POST['correo']) && isset($_POST['contrasenia'])){
+    $correo = $_POST['correo'];//creamos variable
+    $contrasenia = $_POST['contrasenia'];//creamos variable
+    
+    //se crea un objeto db
+    $query = $conexion->prepare('SELECT * FROM usuarios WHERE correo=:correo AND contrasenia=:contrasenia');//con esto conectamos y preparamos la sentencia
+    $query->execute(['correo' => $correo, 'contrasenia' => $contrasenia]);//por ultimo ejecutamos usando un arreglo para los valores.
+
+    $row = $query ->fetch(PDO::FETCH_NUM);//lo transformamos en un arreglo lo de la sentencia anterior.
+    //validamos si existe contenido en el rol.
+    if($row == true){
+        //validar rol
+        $rol = $row[3]; //ponemos 3 porque en nuestra BD nuestra 3er columna es la de roles
+        $_SESSION['rol'] = $rol;
+        switch($_SESSION['rol']){
+            case 1:
+                header('Location: roles/colaborador.php');
+            break;
+            case 2:
+                header('Location: roles/coordinador.php');
+            break;
+            case 3:
+                header('Location: roles/superAdministrador.php');
+            break;
+    
+            default;
+        }
+    }else{
+        //no existe el usuario
+        echo 'El usuario o contraseña son incorrectos';
+    }
+}
 ?>
+
+
 
 <!doctype html>
 <html lang="en">
@@ -76,3 +112,5 @@ if($_POST){
 
     </body>
 </html>
+
+<?php include("template/pie.php"); ?>

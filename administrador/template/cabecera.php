@@ -1,6 +1,5 @@
 <?php
 session_start();
-$correo = $_SESSION['correo'];
 
 ?>
 
@@ -17,14 +16,14 @@ $correo = $_SESSION['correo'];
   </head>
 <body>
 
-    <?php $url="http://".$_SERVER['HTTP_HOST']."/sitioWeb" ?>
+    <?php $url="http://".$_SERVER['HTTP_HOST']."/DataBaseDidactica" ?>
 
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
             <a class="nav-item nav-link active" href="#">Administrador del sitio <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/inicio.php">Inicio</a>
-            <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/seccion/productos.php">Libros</a>
-            <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/seccion/cerrar.php">Cerrar</a>
+            <a class="nav-item nav-link" href="<?php echo $url;?>/login.php">Material</a>
+            <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/seccion/cerrar.php">Cerrar Sesión</a>
             <a class="nav-item nav-link" href="<?php echo $url;?>">Ver sitio web</a>
         </div>
     </nav>
